@@ -1,0 +1,16 @@
+1.  VGA ->  640 * 480
+    HD  -> 1280 * 720
+    FHD -> 1920 * 1080
+    4k  -> 3840 * 2160
+            w   * h
+
+2. level means color we can choose.
+   256 means we can choose 256 colors. It has 8 bit. (1 bit stands for 1 power of 2)
+   if their is only one channel then the picture will be gray.
+   they more level the picture has, the more detail it can represent.
+   3 channel color image -> RGB
+
+3. erosion effect: 侵蚀就是把线条往里面侵蚀？ 有点奇怪
+
+4. height and width begin point:
+    cv's 0,0 coordinate start from left top side and go through right down side.
