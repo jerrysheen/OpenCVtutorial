@@ -21,7 +21,7 @@ def get_contours(mask, color_img):
     # you dont have to run canny image? only 1 channel image is fine
     contours, hierarchy = cv.findContours(mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
     # contour will generate a series of edge cordinate, one set for one graph.
-    img_contour = mask.copy()
+
     # contours inside it will have several set of corrdinate represent for edge dot.
     x, y, w, h = 0, 0, 0, 0
     for cnt in contours:
