@@ -3,7 +3,7 @@ import cv2 as cv
 
 def read_img():
     # This function is used for reading img
-    img = cv.imread("Resource/images/lena.jpg")
+    img = cv.imread("../../Resource/images/lena.jpg")
     print(img)
     cv.imshow("image", img)
 

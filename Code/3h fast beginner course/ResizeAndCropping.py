@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-img = cv.imread("Resource/images/cars.jpg")
+img = cv.imread("../../Resource/images/cars.jpg")
 
 print(img.shape)
 

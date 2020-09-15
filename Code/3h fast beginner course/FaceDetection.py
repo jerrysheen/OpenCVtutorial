@@ -6,7 +6,7 @@ import cv2 as cv
 # Here we will work with face detection.
 
 face_cascade = cv.CascadeClassifier("Resource/cascades/haarcascade_frontalface_default.xml")
-img = cv.imread('Resource/images/face.jpg')
+img = cv.imread('../../Resource/images/face.jpg')
 img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
 # it will derectly contains a rectangle face region

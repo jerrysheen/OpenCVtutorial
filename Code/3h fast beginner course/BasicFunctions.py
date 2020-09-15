@@ -1,6 +1,6 @@
 import cv2 as cv
 import numpy as np
-img = cv.imread("Resource/images/lena.jpg")
+img = cv.imread("../../Resource/images/lena.jpg")
 
 # convert to gray scale
 

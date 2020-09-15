@@ -47,56 +47,38 @@ def stack_images(scale, imgArray):
     return ver
 
 
-def get_contours(img_canny, img):
-    # we take an **canny image** as input
-    contours, hierarchy = cv.findContours(img_canny, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
-    # contour will generate a series of edge cordinate, one set for one graph.
-    img_contour = img.copy()
-    # contours inside it will have several set of corrdinate represent for edge dot.
-    count = 0
-    for cnt in contours:
-        area = cv.contourArea(cnt)
-        # print(area)
-        if area > 500:
-            cv.drawContours(img_contour, cnt, -1, (255, 0, 0), 3)
-            # peri compute the length of a curve
-            peri = cv.arcLength(cnt, True)
-            print(peri)
-            # approxPloyDp 会回传一个近似的图形，根据原来的点长
-            approx = cv.approxPolyDP(cnt, 0.02 * peri, True)
-            obj_type = len(approx)
-            # according to this series of dot, we can get a external rectangle.
-            x, y, w, h = cv.boundingRect(approx)
-            cv.rectangle(img_contour, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            # decide shape by its numbers of vertics
-            obj_name = ""
-            if obj_type == 3:
-                obj_name = "Tri"
-            elif obj_type == 4:
-                obj_name = "Rectangle"
-            else:
-                obj_name = "circle"
-            cv.putText(img_contour, obj_name, ((x + w//3),(y + h//2)),cv.FONT_ITALIC, 0.9, (255,255,255),thickness=3)
-
-    print(count)
-    return img_contour
+def empty(a):
+    #print(a)
+    pass
 
 
-img = cv.imread("Resource/images/shape.png")
+# how to use trackbar and hsv mask
 
-# convert it to gray scale
-# add some gaussion blur
+cv.namedWindow("TrackBars")
+cv.resizeWindow("TrackBars", 640, 240)
+# the first one stands for initial value
+cv.createTrackbar("Hue Min", "TrackBars", 0, 179, empty)
+cv.createTrackbar("Hue Max", "TrackBars", 179, 179, empty)
+cv.createTrackbar("Sat Min", "TrackBars", 110, 255, empty)
+cv.createTrackbar("Sat Max", "TrackBars", 255, 255, empty)
+cv.createTrackbar("Val Min", "TrackBars", 0, 255, empty)
+cv.createTrackbar("Val Max", "TrackBars", 255, 255, empty)
 
+while True:
+    img = cv.imread("../../Resource/images/lambo2.jpg")
+    img_hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
 
-img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-img_blur = cv.GaussianBlur(img_gray, (5, 5), 0.5)
-img_canny = cv.Canny(img_blur, 20, 150)
-# np. zero_like, copy the array with value img.
-img_blank = np.zeros_like(img)
-img_contour = get_contours(img_canny, img)
-
-img_stack = stack_images(0.5, ([img, img_gray, img_blur], [img_canny, img_contour, img_blank]))
-
-cv.imshow("shape", img_stack)
-cv.waitKey(0)
-cv.destroyAllWindows()
+    h_min = cv.getTrackbarPos("Hue Min", "TrackBars")
+    h_max = cv.getTrackbarPos("Hue Max", "TrackBars")
+    s_min = cv.getTrackbarPos("Sat Min", "TrackBars")
+    s_max = cv.getTrackbarPos("Sat Max", "TrackBars")
+    v_min = cv.getTrackbarPos("Val Min", "TrackBars")
+    v_max = cv.getTrackbarPos("Val Max", "TrackBars")
+    print(h_min,h_max,s_min,s_max,v_min,v_max)
+    lowb = np.array([h_min, s_min, v_min])
+    upperb = np.array([h_max, s_max, v_max])
+    mask = cv.inRange(img_hsv,lowerb=lowb, upperb=upperb)
+    img_color = cv.bitwise_and(img, img, mask=mask)
+    total = stack_images(1, ([img, img_hsv], [mask, img_color]))
+    cv.imshow("total", total)
+    cv.waitKey(1000)

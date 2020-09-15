@@ -47,7 +47,7 @@ def stack_images(scale, imgArray):
     return ver
 
 
-img = cv.imread('Resource/images/lena.jpg')
+img = cv.imread('../../Resource/images/lena.jpg')
 
 # horizontally or vertically combine two images.
 imgHor = np.hstack((img, img))
